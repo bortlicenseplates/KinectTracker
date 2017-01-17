@@ -72,14 +72,12 @@ void draw() {
   input.image(depthImage, 0, 0, input.width, input.height);
   input.endDraw();
   out.beginDraw();
-  //out.blendMode(MULTIPLY);
-  out.background(0);
-  out.pushMatrix();
-  out.translate(out.width/2, out.height/2);
-  out.popMatrix();
+  out.blendMode(BLEND);
+  out.fill(0,100);
+  out.blendMode(SCREEN);
+  out.rect(0,0,out.width,out.height);
   depthPlane.run();
   thing.run();
-  //physics.tick();
   out.endDraw();
   image(input, 0, 0, width, height);
   serveThis.sendImage(out);

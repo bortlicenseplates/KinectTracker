@@ -15,6 +15,7 @@ class Repellor {
   PImage disk;
   PVector prevPos;
   float diff;
+  float buffer;
 
   Repellor(float xPos, float yPos, color colour, PShape ring) {
     this.ring = ring;
@@ -61,19 +62,19 @@ class Repellor {
     
     //END DEBUG
     out.pushMatrix();
-    
-    if(abs(map(prevPos.x, 0, out.width, 0, video.length)) > (abs(map(x, 0, out.width, 0, video.length))) + 15 || abs(map(prevPos.x, 0, out.width, 0, video.length)) < (abs(map(x, 0, out.width, 0, video.length))) - 15){
+    out.imageMode(CENTER);
+    bufferCheck(x,y,25);
+    out.image(video[(int)map(x - buffer, 0, out.width, 0, video.length*2) % video.length],out.width/2, out.height/2);
       
-      out.image(video[(int)map(x, 0, out.width, 0, video.length) % video.length],0,0,out.width, out.height);
-      prevPos = new PVector(x,y);
-    } else {
-      out.image(video[(int)map(prevPos.x, 0, out.width, 0, video.length) % video.length],0,0,out.width, out.height);
-    }
     //out.blendMode(MULTIPLY);
     out.popMatrix();
     
-    
-    
+  }
+  
+  void bufferCheck(float x, float y, float thresh){
+    if(abs(map(x, 0, out.width, 0, video.length) - map(prevPos.x, 0, out.width, 0, video.length)) < thresh ){
+      buffer = map(x, 0, out.width, 0, video.length) - map(prevPos.x, 0, out.width, 0, video.length);
+    }
   }
   
   //void mandala(float x, float y, float radius, float wiggle, int pNum){
